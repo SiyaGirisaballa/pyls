@@ -2,7 +2,37 @@ import argparse
 import os
 from datetime import datetime
 
+# Define the argument parser
+parser = argparse.ArgumentParser(
+    prog="pyls",
+    description="Lists files in given or current directory",
+    epilog="Poor man's ls",
+)
 
+# Add arguments to the parser
+parser.add_argument(
+    "dirname",
+    help="Name of directory to list the contents of",
+    action="store",
+    nargs="?",
+    default=".",
+)
+
+parser.add_argument(
+    "-l",
+    "--long-format",
+    help="Presents more details about files in columnar format",
+    action="store_true",
+)
+
+parser.add_argument(
+    "-F",
+    "--filetype",
+    help="Adds an extra character to the end of the printed filename to indicate its type",
+    action="store_true",
+)
+
+# Function definitions
 def list_files_in_directory(dirname):
     """
     Lists the files and directories in the specified directory.
@@ -12,10 +42,6 @@ def list_files_in_directory(dirname):
 
     Returns:
         list: A list of filenames in the directory.
-
-    Raises:
-        FileNotFoundError: If the specified directory does not exist.
-        PermissionError: If the directory cannot be accessed.
     """
     assert isinstance(dirname, str), "dirname should be a string"
 
@@ -38,10 +64,6 @@ def list_files_with_details(dirname):
 
     Returns:
         list: A list of tuples containing detailed information about files and directories.
-
-    Raises:
-        FileNotFoundError: If the specified directory does not exist.
-        PermissionError: If the directory cannot be accessed.
     """
     assert isinstance(dirname, str), "dirname should be a string"
 
@@ -72,10 +94,6 @@ def list_files_with_classification(dirname):
 
     Returns:
         list: A list of filenames in the directory with classification characters.
-
-    Raises:
-        FileNotFoundError: If the specified directory does not exist.
-        PermissionError: If the directory cannot be accessed.
     """
     assert isinstance(dirname, str), "dirname should be a string"
 
@@ -141,42 +159,5 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        prog="pyls",
-        description="Lists files in given or current directory",
-        epilog="Poor man's ls",
-    )
-
-    parser.add_argument(
-        "dirname",
-        help="Name of directory to list the contents of",
-        action="store",
-        nargs="?",
-        default=".",
-    )
-
-    parser.add_argument(
-        "-l",
-        "--long-format",
-        help="Presents more details about files in columnar format",
-        action="store_true",
-    )
-
-    parser.add_argument(
-        "-F",
-        "--filetype",
-        help="Adds an extra character to the end of the printed filename to indicate its type",
-        action="store_true",
-    )
-
-    parser.add_argument(
-        "-h",
-        "--help",
-        action="help",
-        default=argparse.SUPPRESS,
-        help="Show this help message and exit"
-    )
-
     args = parser.parse_args()
-
     main(args)
