@@ -1,5 +1,5 @@
 import pytest
-from pyls_sketch import list_files_in_directory
+from pyls import list_files_in_directory
 
 def test_list_files_in_directory():
     # Test with an existing directory
