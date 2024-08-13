@@ -52,4 +52,33 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     main(args)
-    
+
+
+def list_files_with_details(dirname):
+    """
+    Lists files and directories in the specified directory with detailed information.
+
+    Args:
+        dirname (str): The name of the directory to list.
+
+    Returns:
+        list: A list of tuples containing detailed information about files and directories.
+    """
+    assert isinstance(dirname, str), "dirname should be a string"
+
+    try:
+        entries = os.listdir(dirname)
+        details = []
+        for entry in entries:
+            full_path = os.path.join(dirname, entry)
+            stat = os.stat(full_path)
+            last_modified = datetime.fromtimestamp(stat.st_mtime).strftime("%Y-%m-%d %H:%M:%S")
+            size = stat.st_size if not os.path.isdir(full_path) else 0
+            details.append((last_modified, size, entry))
+        return details
+    except FileNotFoundError:
+        print(f"Directory '{dirname}' not found.")
+        return []
+    except PermissionError:
+        print(f"Permission denied to access '{dirname}'.")
+        return []
